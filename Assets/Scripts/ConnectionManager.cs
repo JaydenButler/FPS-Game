@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MLAPI;
-using MLAPI.Spawning;
+using MLAPI.Transports.UNET;
 
 public class ConnectionManager : MonoBehaviour
 {
     [SerializeField] private GameObject connectionButtonPanel;
+    [SerializeField] private string ipAddress = "127.0.0.1";
+
+    private UNetTransport _transport;
     
     //Server only
     public void Host()
@@ -27,7 +30,11 @@ public class ConnectionManager : MonoBehaviour
 
     public void Join()
     {
+        _transport = NetworkManager.Singleton.GetComponent<UNetTransport>();
+        _transport.ConnectAddress = ipAddress;
+        
         connectionButtonPanel.SetActive(false);
+        
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes("Password1234");
         NetworkManager.Singleton.StartClient();
     }
@@ -37,5 +44,10 @@ public class ConnectionManager : MonoBehaviour
         float x = Random.Range(-10f, 10f);
         float z = Random.Range(-10f, 10f);
         return new Vector3(x, 0, z);
+    }
+
+    public void IPAddressChanged(string ip)
+    {
+        ipAddress = ip;
     }
 }
