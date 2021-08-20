@@ -8,6 +8,7 @@ public class ConnectionManager : MonoBehaviour
 {
     [SerializeField] private GameObject connectionButtonPanel;
     [SerializeField] private string ipAddress = "127.0.0.1";
+    [SerializeField] private Camera lobbyCamera;
 
     private UNetTransport _transport;
     
@@ -15,6 +16,8 @@ public class ConnectionManager : MonoBehaviour
     public void Host()
     {
         connectionButtonPanel.SetActive(false);
+        lobbyCamera.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
         NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         NetworkManager.Singleton.StartHost(GetRandomSpawn(), Quaternion.identity);
     }
@@ -34,6 +37,7 @@ public class ConnectionManager : MonoBehaviour
         _transport.ConnectAddress = ipAddress;
         
         connectionButtonPanel.SetActive(false);
+        lobbyCamera.gameObject.SetActive(false);
         
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes("Password1234");
         NetworkManager.Singleton.StartClient();
