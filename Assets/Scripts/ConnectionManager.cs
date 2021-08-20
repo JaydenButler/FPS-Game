@@ -17,7 +17,9 @@ public class ConnectionManager : MonoBehaviour
     {
         connectionButtonPanel.SetActive(false);
         lobbyCamera.gameObject.SetActive(false);
+        
         Cursor.lockState = CursorLockMode.Locked;
+        
         NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
         NetworkManager.Singleton.StartHost(GetRandomSpawn(), Quaternion.identity);
     }
@@ -39,6 +41,8 @@ public class ConnectionManager : MonoBehaviour
         connectionButtonPanel.SetActive(false);
         lobbyCamera.gameObject.SetActive(false);
         
+        Cursor.lockState = CursorLockMode.Locked;
+
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes("Password1234");
         NetworkManager.Singleton.StartClient();
     }
