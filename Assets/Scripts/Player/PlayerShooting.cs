@@ -30,7 +30,7 @@ public class PlayerShooting : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
-            if (Input.GetButton("Fire1") && _allowFire)
+            if (Input.GetButton("Fire1") && _allowFire && !FirstPersonController.Paused)
             {
                 StartCoroutine(Fire());
             }

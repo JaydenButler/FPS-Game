@@ -28,7 +28,9 @@ public class FirstPersonController : NetworkBehaviour
     [Range(-1f, -90f)]
     public float minPitch = -85f;
     [Range(0.5f, 5f)]
-    public float mouseSensitivity = 2f;
+    public static float MouseSensitivity = 2f;
+
+    public static bool Paused;
 
     //the character component for moving us
     CharacterController cc;
@@ -50,18 +52,18 @@ public class FirstPersonController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsLocalPlayer)
+        if (IsLocalPlayer && !Paused)
         {
             Look();
-            Move(); 
+            Move();
         }
     }
 
     void Look()
     {
         //get the mouse input axis values
-        float xInput = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float yInput = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        float xInput = Input.GetAxis("Mouse X") * MouseSensitivity;
+        float yInput = Input.GetAxis("Mouse Y") * MouseSensitivity;
         //turn the whole object based on the x input
         transform.Rotate(0, xInput, 0);
         //now add on y input to pitch, and clamp it
