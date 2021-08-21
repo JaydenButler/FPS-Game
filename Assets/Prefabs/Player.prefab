@@ -383,7 +383,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletTrail: {fileID: 5158743036779607491, guid: c51b91b695c34ff4d8d38adc90883be5, type: 3}
-  gunBarrell: {fileID: 5955017231980970194}
+  gunBarrel: {fileID: 5955017231980970194}
+  fireSpeed: 0.15
 --- !u!114 &4051664731127138730
 MonoBehaviour:
   m_ObjectHideFlags: 0

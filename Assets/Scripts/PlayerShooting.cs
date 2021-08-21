@@ -4,12 +4,14 @@ using System.Security;
 using UnityEngine;
 using MLAPI;
 using MLAPI.Messaging;
+using UnityEngine.Serialization;
 
 public class PlayerShooting : NetworkBehaviour
 {
     [SerializeField] private TrailRenderer bulletTrail;
-    [SerializeField] private Transform gunBarrell;
-    
+    [SerializeField] private Transform gunBarrel;
+    [SerializeField] private float fireSpeed = 0.15f;
+    private bool _allowFire = true;
     
     // Start is called before the first frame update
     void Start()
@@ -22,10 +24,9 @@ public class PlayerShooting : NetworkBehaviour
     {
         if (IsLocalPlayer)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButton("Fire1") && _allowFire)
             {
-                //Shoot!
-                ShootServerRpc();
+                StartCoroutine(Fire());
             }
         }
     }
@@ -35,7 +36,7 @@ public class PlayerShooting : NetworkBehaviour
     void ShootServerRpc()
     {
         //Do the raycast checks on the server to see if he hit an enemy
-        if (Physics.Raycast(gunBarrell.position, gunBarrell.forward, out RaycastHit hit, 200f))
+        if (Physics.Raycast(gunBarrel.position, gunBarrel.forward, out RaycastHit hit, 200f))
         {
             var enemyHealth = hit.transform.GetComponent<PlayerHealth>();
             if (enemyHealth != null)
@@ -51,16 +52,24 @@ public class PlayerShooting : NetworkBehaviour
     [ClientRpc]
     void ShootClientRpc()
     {
-        var gunBarrellPosition = gunBarrell.position;
-        var bullet = Instantiate(bulletTrail, gunBarrellPosition, Quaternion.identity);
-        bullet.AddPosition(gunBarrellPosition);
-        if (Physics.Raycast(gunBarrellPosition, gunBarrell.forward, out RaycastHit hit, 200f))
+        var gunBarrelPosition = gunBarrel.position;
+        var bullet = Instantiate(bulletTrail, gunBarrelPosition, Quaternion.identity);
+        bullet.AddPosition(gunBarrelPosition);
+        if (Physics.Raycast(gunBarrelPosition, gunBarrel.forward, out RaycastHit hit, 200f))
         {
             bullet.transform.position = hit.point;
         }
         else
         {
-            bullet.transform.position = gunBarrellPosition + (gunBarrell.forward * 200f);
+            bullet.transform.position = gunBarrelPosition + (gunBarrel.forward * 200f);
         }
+    }
+    
+    IEnumerator Fire()
+    {
+        _allowFire = false;
+        ShootServerRpc();
+        yield return new WaitForSeconds(fireSpeed);
+        _allowFire = true;
     }
 }
