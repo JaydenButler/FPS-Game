@@ -20,7 +20,7 @@ public class FirstPersonController : NetworkBehaviour
     [Range(5f,15f)]
     public float jumpSpeed = 10f;
 
-    //now the camera so we can move it up and down
+    //Get the camera so we can move it up and down
     Transform cameraTransform;
     float pitch = 0f;
     [Range(1f,90f)]
@@ -30,7 +30,7 @@ public class FirstPersonController : NetworkBehaviour
     [Range(0.5f, 5f)]
     public float mouseSensitivity = 2f;
 
-    //the charachtercompononet for moving us
+    //the character component for moving us
     CharacterController cc;
 
     private void Start()
@@ -42,7 +42,8 @@ public class FirstPersonController : NetworkBehaviour
         }
         else
         {
-            cameraTransform.gameObject.SetActive(false);
+            cameraTransform.gameObject.GetComponent<Camera>().enabled = false;
+            cameraTransform.gameObject.GetComponent<AudioListener>().enabled = false;            
         }
     }
 
@@ -58,7 +59,7 @@ public class FirstPersonController : NetworkBehaviour
 
     void Look()
     {
-        //get the mouse inpuit axis values
+        //get the mouse input axis values
         float xInput = Input.GetAxis("Mouse X") * mouseSensitivity;
         float yInput = Input.GetAxis("Mouse Y") * mouseSensitivity;
         //turn the whole object based on the x input
