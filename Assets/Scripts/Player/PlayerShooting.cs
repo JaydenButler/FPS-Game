@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Security;
 using UnityEngine;
 using MLAPI;
 using MLAPI.Messaging;
 using UnityEngine.Serialization;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerShooting : NetworkBehaviour
 {
-    [SerializeField] private TrailRenderer bulletTrail;
+    // [SerializeField] private TrailRenderer bulletTrail;
+    [SerializeField] private Rigidbody bulletRigidBody;
+    [SerializeField] private float bulletSpeed = 10f;
     [SerializeField] private Transform gunBarrel;
     [SerializeField] private float fireSpeed = 0.15f;
+    [SerializeField] private Camera _camera;
     private bool _allowFire = true;
     
     // Start is called before the first frame update
@@ -53,16 +59,12 @@ public class PlayerShooting : NetworkBehaviour
     void ShootClientRpc()
     {
         var gunBarrelPosition = gunBarrel.position;
-        var bullet = Instantiate(bulletTrail, gunBarrelPosition, Quaternion.identity);
-        bullet.AddPosition(gunBarrelPosition);
-        if (Physics.Raycast(gunBarrelPosition, gunBarrel.forward, out RaycastHit hit, 200f))
-        {
-            bullet.transform.position = hit.point;
-        }
-        else
-        {
-            bullet.transform.position = gunBarrelPosition + (gunBarrel.forward * 200f);
-        }
+        // var bullet = Instantiate(bulletTrail, gunBarrelPosition, Quaternion.identity);
+        // bullet.AddPosition(gunBarrelPosition);
+        var bullet = Instantiate(bulletRigidBody, gunBarrelPosition, _camera.transform.rotation);
+        var newRotation = Quaternion.LookRotation(-bullet.transform.forward, Vector3.right);
+        bullet.rotation = Quaternion.Slerp(bullet.rotation, newRotation, 1f);
+        bullet.velocity = gunBarrel.forward * bulletSpeed;
     }
     
     IEnumerator Fire()
