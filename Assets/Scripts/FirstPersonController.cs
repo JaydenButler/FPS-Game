@@ -95,7 +95,4 @@ public class FirstPersonController : NetworkBehaviour
         //and finally move
         cc.Move(move * Time.deltaTime);
     }
-
-
-
 }

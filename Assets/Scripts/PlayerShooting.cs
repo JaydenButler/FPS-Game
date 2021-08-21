@@ -34,6 +34,16 @@ public class PlayerShooting : NetworkBehaviour
     [ServerRpc]
     void ShootServerRpc()
     {
+        //Do the raycast checks on the server to see if he hit an enemy
+        if (Physics.Raycast(gunBarrell.position, gunBarrell.forward, out RaycastHit hit, 200f))
+        {
+            var enemyHealth = hit.transform.GetComponent<PlayerHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(10);
+            }
+        }
+        
         ShootClientRpc();
     }
     

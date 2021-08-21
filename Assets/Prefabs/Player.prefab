@@ -91,7 +91,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 2699541614218734239}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -244,6 +244,8 @@ GameObject:
   - component: {fileID: 7683546218280625608}
   - component: {fileID: 1247327762221045911}
   - component: {fileID: 7478434630376309646}
+  - component: {fileID: 4051664731127138730}
+  - component: {fileID: 424798259676560358}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -382,6 +384,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletTrail: {fileID: 5158743036779607491, guid: c51b91b695c34ff4d8d38adc90883be5, type: 3}
   gunBarrell: {fileID: 5955017231980970194}
+--- !u!114 &4051664731127138730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2699541615817244657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61ef7f2c88ed72c4d81c6c629bdd0c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actualHealth: 100
+--- !u!114 &424798259676560358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2699541615817244657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392ce8750fc124a43b2196fccc6a3870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scripts:
+  - {fileID: 2699541615817244670}
+  - {fileID: 4051664731127138730}
+  - {fileID: 7478434630376309646}
+  - {fileID: 1247327762221045911}
 --- !u!1 &3136625245200168079
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,7 +506,7 @@ BoxCollider:
   m_GameObject: {fileID: 3136625245200168079}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
