@@ -51,7 +51,7 @@ public class ConnectionManager : MonoBehaviour
     {
         float x = Random.Range(-10f, 10f);
         float z = Random.Range(-10f, 10f);
-        return new Vector3(x, 0, z);
+        return new Vector3(x, 1f, z);
     }
 
     public void IPAddressChanged(string ip)
